@@ -4,7 +4,7 @@ try:
     from flask import Flask
 except ImportError:
     print ("\n[X] Please install Flask:")
-    print ("   $ pip install flask\n")
+    print ("   $ pip3 install flask\n")
     exit()
 
 from optparse import OptionParser
