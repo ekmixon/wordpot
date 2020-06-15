@@ -2,7 +2,7 @@
 
 Wordpot is a Wordpress honeypot which detects probes for plugins, themes, timthumb and other common files used to fingerprint a wordpress installation.
    
-    $ python wordpot.py --help
+    $ python3 wordpot.py --help
     Usage: wordpot.py [options]
     
     Options:
@@ -23,7 +23,7 @@ You can use a wordpress theme as you would in a normal Wordpress installation by
 
 To use the theme start wordpot with the theme option (default value is `twentyeleven`):
     
-    $ python wordpot --theme=THEMENAME
+    $ python3 wordpot --theme=THEMENAME
 
 Templates are built with the [Jinja2](http://jinja.pocoo.org) template engine.
 
