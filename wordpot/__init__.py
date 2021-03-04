@@ -87,7 +87,7 @@ check_options()
 
 if app.config['HPFEEDS_ENABLED']:
     import hpfeeds
-    print ('Connecting to hpfeeds broker {}:{}').format(app.config['HPFEEDS_HOST'], app.config['HPFEEDS_PORT'])
+    print ('Connecting to hpfeeds broker {}:{}'.format(app.config['HPFEEDS_HOST'], app.config['HPFEEDS_PORT']))
     app.config['hpfeeds_client'] = hpfeeds.new(
         app.config['HPFEEDS_HOST'], 
         app.config['HPFEEDS_PORT'], 
