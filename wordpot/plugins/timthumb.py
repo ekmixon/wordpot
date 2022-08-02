@@ -8,7 +8,8 @@ class Plugin(BasePlugin):
         # Logic
         if TIMTHUMB_RE.search(self.inputs['subpath']) is not None:
             # Message to log
-            log = '%s probed for timthumb: %s' % (self.inputs['request'].remote_addr, self.inputs['subpath'])
+            log = f"{self.inputs['request'].remote_addr} probed for timthumb: {self.inputs['subpath']}"
+
             self.outputs['log'] = log
             self.outputs['log_json'] = self.to_json_log(filename=self.inputs['subpath'], plugin='timthumb')
             # Template to render

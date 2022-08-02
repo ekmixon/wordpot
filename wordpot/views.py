@@ -22,10 +22,13 @@ def commons(filename=None, ext=None):
             if 'template_vars' in p.outputs:
                 return render_template(p.outputs['template'], vars=p.outputs['template_vars'])
             return render_template(p.outputs['template'], vars={})
-   
-    if filename is None and ext is None:
-        return render_template(TEMPLATE, vars={})
-    elif filename == 'index' and ext == 'php':
+
+    if (
+        filename is None
+        and ext is None
+        or filename == 'index'
+        and ext == 'php'
+    ):
         return render_template(TEMPLATE, vars={})
     else:        
         abort(404)
@@ -36,7 +39,7 @@ def admin(subpath='/'):
     """ Admin panel probing handler """
     origin = request.remote_addr
     LOGGER.info('%s probed for the admin panel with path: %s', origin, subpath)
-    
+
     # Plugins hook
     for p in pm.hook('plugins'):
         p.start(subpath=subpath, request=request)
@@ -48,7 +51,7 @@ def admin(subpath='/'):
             if 'template_vars' in p.outputs:
                 return render_template(p.outputs['template'], vars=p.outputs['template_vars'])
             return render_template(p.outputs['template'], vars={})
-    
+
     return redirect('wp-login.php')
 
 @app.route('/wp-content/plugins/<plugin>', methods=['GET', 'POST'])
@@ -57,7 +60,7 @@ def plugin(plugin, subpath='/'):
     """ Plugin probing handler """
     origin = request.remote_addr
     LOGGER.info('%s probed for plugin "%s" with path: %s', origin, plugin, subpath)
-    
+
     # Is the plugin in the whitelist?
     if not is_plugin_whitelisted(plugin):
         abort(404)

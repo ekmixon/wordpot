@@ -11,11 +11,7 @@ class PluginsManager():
     def __init__(self):
         self.plugins_path = os.path.join(CURRENTPATH, 'plugins/') 
 
-        self.plugins_loaded             = {}
-        self.plugins_loaded['plugins']  = []
-        self.plugins_loaded['themes']   = []
-        self.plugins_loaded['admin']    = []
-        self.plugins_loaded['commons']  = []
+        self.plugins_loaded = {'plugins': [], 'themes': [], 'admin': [], 'commons': []}
         return
 
     def _import_plugin(self, name):
@@ -29,8 +25,8 @@ class PluginsManager():
         for root, dirs, files in os.walk(self.plugins_path):
             for file in files:
                 if file[-3:] == '.py' and file != '__init__.py':
-                    modname = 'wordpot.plugins.' + file[:-3]
-                    plugin = self._import_plugin(modname).Plugin() 
+                    modname = f'wordpot.plugins.{file[:-3]}'
+                    plugin = self._import_plugin(modname).Plugin()
                     plugin._load_config(file[:-3])
 
                     # Add to loaded list organized by categories
@@ -61,7 +57,7 @@ class BasePlugin(object):
         self.slug = slug
         try:
             config = ConfigParser.ConfigParser()
-            plugin_config = os.path.join(CURRENTPATH, 'plugins/%s.ini' % self.slug)
+            plugin_config = os.path.join(CURRENTPATH, f'plugins/{self.slug}.ini')
 
             config.read(plugin_config)
 
@@ -76,13 +72,9 @@ class BasePlugin(object):
             pass
     
     def start(self, **kwargs):
-        # First flush previous inputs/outputs
-        self.inputs = {}
         self.outputs = {}
 
-        # Parse arguments 
-        for k, v in kwargs.iteritems():
-            self.inputs[k] = v
+        self.inputs = dict(kwargs.iteritems())
         try:
             self.run()
         except Exception as e:
